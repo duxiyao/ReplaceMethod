@@ -4,6 +4,7 @@ apply plugin: 'kotlin'
 //apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: "java-gradle-plugin" //native build 1
 group='com.github.niuxiaowei'
 
 
@@ -19,11 +20,28 @@ dependencies {
     implementation "org.ow2.asm:asm-commons:6.0"
     implementation "org.ow2.asm:asm-analysis:6.0"
     implementation "org.ow2.asm:asm-tree:6.0"
-
+    //https://github.com/stephengold/asm
 }
 
 
 compileGroovy {
     dependsOn tasks.getByPath('compileKotlin')
     classpath += files(compileKotlin.destinationDir)
+}
+
+/**
+ * 引入apply plugin: "java-gradle-plugin"
+ * gradlew build 本地编译jar包
+ * 在项目gradle的dependencies中引入classpath files("replacemethod/build/libs/replacemethod-1.0.0.jar")
+ * 在app对应的gradle中 apply plugin: 'com.android.hq.testplugin.test'
+ */
+//native build 2
+version='1.0.0'
+gradlePlugin {
+    plugins {
+        hello {
+            id = 'com.myplugin.test'
+            implementationClass = 'com.mi.replacemethod.gradle.ReplaceMethodPlugin'
+        }
+    }
 }

@@ -4,7 +4,9 @@ plugins {
     id 'kotlin-android-extensions'
 }
 
-apply plugin: 'ReplaceMethodPlugin'
+//apply plugin: 'ReplaceMethodPlugin'
+//如果项目当前未生成插件jar包，则先注掉，build生成后再引用
+apply plugin: 'com.myplugin.test'
 
 
 android {
@@ -56,7 +58,7 @@ dependencies {
 
 replaceMethod{
     open true
-    openLog false
+    openLog true
     logFilters "IInterfaceTest"
     replaceByMethods{
         register {
@@ -150,7 +152,7 @@ replaceMethod{
                 className "android.view.View"
                 methodName "setOnClickListener"
                 desc "(android.view.View\$OnClickListener)"
-                }
+            }
             by {
                 className = "com.mi.replacemethod.ReplaceMethodDemo"
                 methodName = "setOnClickListener"
