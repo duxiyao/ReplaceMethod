@@ -1,11 +1,10 @@
 package com.mi.replacemethod
 
 
-import jdk.internal.org.objectweb.asm.Opcodes.*
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.Label
 import org.objectweb.asm.MethodVisitor
-import org.objectweb.asm.Opcodes
+import org.objectweb.asm.Opcodes.*
 
 
 /**
@@ -61,12 +60,12 @@ class ReplaceClassVisitor(api: Int, cv: ClassVisitor?, var config: Config) :
         try {
             val isConstructor = MethodTool.isConstructor(name)
             var isStaticMethod = false
-            if (access and Opcodes.ACC_STATIC > 0) {
+            if (access and ACC_STATIC > 0) {
                 isStaticMethod = true
             }
-            var isAbsMethod = access and Opcodes.ACC_ABSTRACT > 0
+            var isAbsMethod = access and ACC_ABSTRACT > 0
 
-            return if ( isAbsMethod) {
+            return if (isAbsMethod) {
                 super.visitMethod(access, name, desc, signature, exceptions)
             } else {
                 if (visitedMethodRecords == null) {
@@ -142,7 +141,7 @@ class ReplaceClassVisitor(api: Int, cv: ClassVisitor?, var config: Config) :
                         "(" -> {
                         }
                         ")" -> result = "eof"
-                        "I", "J", "Z", "F", "D", "C", "S" -> result = str as String
+                        "I", "J", "Z", "F", "D", "C", "S", "B" -> result = str as String
                         "[" -> result = "${str}${parse(strs)}"
                         "L" -> {
                             val index = strs.subSequence(i, max).indexOf(";") + 1
@@ -261,15 +260,23 @@ class ReplaceClassVisitor(api: Int, cv: ClassVisitor?, var config: Config) :
      */
     private fun insertAloadInsn(params: MutableList<String>?, mv: MethodVisitor, firstParamAddCastInsn: Boolean = false, castClass: String? = "") {
         var index = 0
+        //J==long D == double 它们的wide是2，因此需要+2
         params?.forEach {
             when (it) {
                 "I" -> mv.visitVarInsn(ILOAD, index++)
-                "J" -> mv.visitVarInsn(LLOAD, index++)
+                "J" -> {
+                    mv.visitVarInsn(LLOAD, index)
+                    index += 2
+                }
                 "Z" -> mv.visitVarInsn(ILOAD, index++)
                 "F" -> mv.visitVarInsn(FLOAD, index++)
-                "D" -> mv.visitVarInsn(DLOAD, index++)
+                "D" -> {
+                    mv.visitVarInsn(DLOAD, index)
+                    index += 2
+                }
                 "C" -> mv.visitVarInsn(ILOAD, index++)
                 "S" -> mv.visitVarInsn(ILOAD, index++)
+                "B" -> mv.visitVarInsn(ILOAD, index++)
                 else -> {
                     mv.visitVarInsn(ALOAD, index++)
                     if (index == 1 && firstParamAddCastInsn && castClass != "") {
@@ -290,6 +297,7 @@ class ReplaceClassVisitor(api: Int, cv: ClassVisitor?, var config: Config) :
                 "D" -> mv.visitInsn(DRETURN)
                 "C" -> mv.visitInsn(IRETURN)
                 "S" -> mv.visitInsn(IRETURN)
+                "B" -> mv.visitInsn(IRETURN)
                 "V" -> {
                     mv.visitInsn(RETURN)
                 }
@@ -302,7 +310,12 @@ class ReplaceClassVisitor(api: Int, cv: ClassVisitor?, var config: Config) :
         var index = 0
         params?.forEach {
             mv.visitLocalVariable("param${index}", it, null, label0, label4, index)
-            index++
+            when(it){
+                "J"-> index += 2
+                "D"-> index += 2
+                else -> index++
+            }
+
         }
 
     }
@@ -340,7 +353,7 @@ class ReplaceClassVisitor(api: Int, cv: ClassVisitor?, var config: Config) :
 //                  mv.visitLineNumber(52, label1)
                         //if不需要frame指令
                         if (index != 0) {
-                            mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null)
+                            mv.visitFrame(F_SAME, 0, null, 0, null)
                         }
                         //else，因此不需要下面的判断
                         if (index != byInfos.size - 1) {
@@ -372,7 +385,7 @@ class ReplaceClassVisitor(api: Int, cv: ClassVisitor?, var config: Config) :
 //                  mv.visitLineNumber(52, label1)
                         //if不需要frame指令
                         if (index != 0) {
-                            mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null)
+                            mv.visitFrame(F_SAME, 0, null, 0, null)
                         }
                         //else，因此不需要下面的判断
                         if (index != byInfos.size - 1) {

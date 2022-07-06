@@ -3,6 +3,9 @@
 
 # ReplaceMethod(对调用的方法进行替换的工具)
 
+[![](https://jitpack.io/v/niuxiaowei/replacemethod.svg)](https://jitpack.io/#niuxiaowei/replacemethod)
+
+
 *ReplaceMethod*:  **在代码编译阶段，根据收集的配置信息，利用ASM对字节码进行替换，以达到对调用的方法进行替换的工具**  (您不需要学习怎么写gradle插件，不需要学习ASM非常复杂的语法)
 
 ### 为什么要做这个工具
@@ -137,7 +140,7 @@ buildscript {
        
     }
     dependencies {
-        classpath "com.github.niuxiaowei:ReplaceMethod:1.0.0"
+        classpath "com.github.niuxiaowei:ReplaceMethod:1.0.4"
     }
 }
 allprojects {

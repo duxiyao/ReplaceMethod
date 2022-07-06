@@ -1,13 +1,12 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-android-extensions'
-}
+//plugins {
+apply plugin: 'com.android.application'
+apply  plugin: 'kotlin-android'
+apply  plugin: 'kotlin-android-extensions'
+//}
 
-//apply plugin: 'ReplaceMethodPlugin'
+apply plugin: 'ReplaceMethodPlugin'
 //如果项目当前未生成插件jar包，则先注掉，build生成后再引用
-apply plugin: 'com.myplugin.test'
-
+//apply plugin: 'com.myplugin.test'
 
 android {
     compileSdkVersion 30
@@ -47,6 +46,7 @@ android {
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
 
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'com.google.android.material:material:1.4.0'
@@ -59,7 +59,7 @@ dependencies {
 replaceMethod{
     open true
     openLog true
-    logFilters "IInterfaceTest"
+    logFilters "NetworkInterface"
     replaceByMethods{
         register {
             replace {
@@ -189,11 +189,77 @@ replaceMethod{
                 invokeType "ins"
                 className "android.app.ActivityManager"
                 methodName "getRunningTasks"
-                desc "(int)java.util.List"
+                desc "(int)java.util.List<android.app.ActivityManager\$RunningTaskInfo>"
             }
             by {
                 className = "com.mi.replacemethod.ReplaceMethodDemo"
             }
         }
+
+//        register {
+//            replace {
+//                releaseEnable true
+//                invokeType "static"
+//                className "android.util.Log"
+//                methodName "i"
+//                desc "(java.lang.String,java.lang.String)int"
+//            }
+//            by {
+//                className = "com.mi.replacemethod.ReplaceMethodDemo"
+//            }
+//        }
+//
+//        register {
+//            replace {
+//                invokeType "ins"
+//                className "android.app.ActivityManager"
+//                methodName "getRunningTasks"
+//                desc "(int)java.util.List<android.app.ActivityManager\$RunningTaskInfo>"
+//            }
+//            by {
+//                className = "com.mi.replacemethod.ReplaceMethodDemo"
+//            }
+//        }
+
+        register {
+            replace {
+                releaseEnable true
+                invokeType "ins"
+                className "android.location.LocationManager"
+                methodName "requestLocationUpdates"
+                desc "(java.lang.String,long,float,android.location.LocationListener)"
+            }
+            by {
+                className = "com.mi.replacemethod.ReplaceMethodDemo"
+                addExtraParams = true
+            }
+        }
+
+        register {
+            replace {
+                releaseEnable true
+                invokeType "ins"
+                className "java.net.NetworkInterface"
+                methodName "getHardwareAddress"
+                desc "()byte[]"
+            }
+            by {
+                className = "com.mi.replacemethod.ReplaceMethodDemo"
+                addExtraParams = true
+            }
+        }
+
+        register {
+            replace {
+                invokeType "static"
+                className "com.mi.replacemethod.MainActivity"
+                methodName "testBaseType"
+                desc "(byte,byte[],short,short[],long,long[],boolean,boolean[],float,float[],int,int[],double,double[])"
+            }
+            by {
+                className = "com.mi.replacemethod.ReplaceMethodDemo"
+            }
+        }
+
     }
 }

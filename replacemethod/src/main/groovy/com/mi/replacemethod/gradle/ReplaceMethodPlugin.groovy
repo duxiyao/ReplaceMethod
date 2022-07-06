@@ -15,7 +15,7 @@ import org.gradle.api.invocation.Gradle
  * [Gradle 调试Transform代码](https://www.jianshu.com/p/91a43ef3d682)
  *
  * debug插件时候，需要配置环境变量 GRADLE_OPTS = -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
- * 然后右侧gradle 的tasks里右键build 选择debug即可
+ * 然后右侧gradle 的tasks里右键build 选择debug即可。再次debug需要先clean app项目后进行右键debug
  * 插件类
  */
 class ReplaceMethodPlugin implements Plugin<Project> {
