@@ -118,7 +118,7 @@ class ReplaceMethodTransform extends Transform {
 
         if (directoryInput.file.isDirectory()) {
             if (config.openLog) {
-//                println '[ReplaceMethod]:traceSrcFiles   filename:' + directoryInput.file
+                println '[ReplaceMethod]:traceSrcFiles   filename:' + directoryInput.file
             }
             directoryInput.file.eachFileRecurse { File file ->
                 def name = file.name

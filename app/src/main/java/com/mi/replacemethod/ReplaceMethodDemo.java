@@ -23,7 +23,7 @@ public class ReplaceMethodDemo {
     private static final String TAG = "ReplaceMethodDemo";
 
     public static View inflate(LayoutInflater inflater, int layoutId, ViewGroup parent,
-            Object[] objects) {
+                               Object[] objects) {
         View result = inflater.inflate(layoutId, parent);
         Log.i(TAG,
                 "inflate invoke layoutId:" + layoutId + "  parent:" + parent + "  result:" + result);
@@ -31,7 +31,7 @@ public class ReplaceMethodDemo {
     }
 
     public static View inflate(MainActivity mainActivity, int layoutId, ViewGroup parent,
-            Object[] objects) {
+                               Object[] objects) {
         View result = mainActivity.inflate(layoutId, parent);
         Log.i(TAG,
                 "inflate invoke layoutId:" + layoutId + "  parent:" + parent + "  result:" + result);
@@ -39,7 +39,7 @@ public class ReplaceMethodDemo {
     }
 
     public static View inflate(LayoutInflater inflater, int layoutId, ViewGroup parent,
-            boolean attachToRoot, Object[] objects) {
+                               boolean attachToRoot, Object[] objects) {
         View result = inflater.inflate(layoutId, parent, attachToRoot);
         Log.i(TAG, "inflate invoke layoutId:" + layoutId + "  parent:" + parent + "  attachToRoot" +
                 ":" + attachToRoot + "  result:" + result);
@@ -54,7 +54,7 @@ public class ReplaceMethodDemo {
     }
 
     public static View inflateMyInflater(Context context, int layoutId, ViewGroup parent,
-            Object[] objects) {
+                                         Object[] objects) {
         View view = MyInflater.inflate(context, layoutId, parent);
         Log.i("ReplaceMethodDemo",
                 "inflate invoke context:" + context + "layoutId:" + layoutId + "  parent:" + parent + "  result:" + view);
@@ -107,7 +107,7 @@ public class ReplaceMethodDemo {
     }
 
     public static void requestLocationUpdates(LocationManager locationManager, String s, long l,
-            float f, LocationListener locationListener,Object[] params) {
+                                              float f, LocationListener locationListener, Object[] params) {
 
     }
 
@@ -119,8 +119,18 @@ public class ReplaceMethodDemo {
     }
 
     public static void testBaseType(byte b, byte[] bs, short s, short[] ss, long l, long[] ls, boolean bo, boolean[] bss, float f, float[] floats, int i, int[] ints, double d, double[] doubles) {
-        Log.i("ReplaceMethodDemo", "testByte b"+b+" bytes:"+bs + "s:"+s);
+        Log.i("ReplaceMethodDemo", "testByte b" + b + " bytes:" + bs + "s:" + s);
 
     }
 
+    public static void testb(Object[] params) {
+        android.util.Log.e("-----", "22222222");
+        MyInflater.testa();
+    }
+
+    public static void dxyb(MyInflater o, Object[] params) {
+        android.util.Log.e("-----", "3333333");
+
+        o.dxya();
+    }
 }

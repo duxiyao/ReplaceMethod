@@ -28,6 +28,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         View view = inflate(R.layout.activity_second, null);
         Log.i("Main", "oncreate");
+        MyInflater.testtt();
         getRunningTasks();
 
 //        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);

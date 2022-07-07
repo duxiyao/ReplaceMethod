@@ -61,6 +61,56 @@ replaceMethod{
     openLog true
     logFilters "NetworkInterface"
     replaceByMethods{
+
+        //在所用要调用的地方给替换成by里的，而非在对应函数内(如com.mi.replacemethod.MyInflater#testa)替换
+        //在E:\me\ReplaceMethodStudy\ReplaceMethod\app\build\intermediates\javac\release\classes下可查看替换后的字节码反编译的代码
+
+//        register {
+//            replace {
+//                releaseEnable true
+//                invokeType "static"
+//                className "com.mi.replacemethod.MyInflater"
+//                methodName "testa"
+//                desc "()void"
+//            }
+//            by {
+        ////与replace className 相同的，会跳过替换
+//                className = "com.mi.replacemethod.MyInflater"
+//                methodName = "testb"
+//                addExtraParams  true
+//            }
+//        }
+
+        register {
+            replace {
+                releaseEnable true
+                invokeType "static"
+                className "com.mi.replacemethod.MyInflater"
+                methodName "testa"
+                desc "()void"
+            }
+            by {
+                className = "com.mi.replacemethod.ReplaceMethodDemo"
+                methodName = "testb"
+                addExtraParams  true
+            }
+        }
+
+        register {
+            replace {
+//                releaseEnable true
+                invokeType "ins"
+                className "com.mi.replacemethod.MyInflater"
+                methodName "dxya"
+                desc "()void"
+            }
+            by {
+                className = "com.mi.replacemethod.ReplaceMethodDemo"
+                methodName = "dxyb"
+                addExtraParams  true
+            }
+        }
+
         register {
             replace {
                 invokeType "ins"
