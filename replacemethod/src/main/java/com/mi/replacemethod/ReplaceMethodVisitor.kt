@@ -66,7 +66,7 @@ class ReplaceMethodVisitor(
     }
 
 
-
+    //扫描每个方法里的调用。即进入每个方法，一行行扫描，若有函数调用，就会进入该方法。  访问函数里的所有函数调用
     override fun visitMethodInsn(opcode: Int, owner: String?, name: String?, desc: String?, b: Boolean) {
         if (findReplaceMethod(opcode, owner, name, desc, b)) {
             return
@@ -329,6 +329,8 @@ class ReplaceMethodVisitor(
      * @return true:找到了，false：没找到
      */
     private fun findReplaceMethod(opcode: Int, owner: String?, name: String?, desc: String?, itf: Boolean): Boolean {
+        //扫描每个方法里的调用。即进入每个方法，一行行扫描，若有函数调用，就会进入该方法。  访问函数里的所有函数调用
+        println("---findReplaceMethod  className:${className}  methodName:${curMethodName}  owner:${owner}  name:${name}  desc:${desc} opcode:${opcode}     loadParam:${loadParam}")
         config.log("findReplaceMethod  className:${className}  methodName:${curMethodName}  owner:${owner}  name:${name}  desc:${desc} opcode:${opcode}     loadParam:${loadParam}")
         config.methods?.let { methods ->
             for (absReplaceByMethod in methods) {

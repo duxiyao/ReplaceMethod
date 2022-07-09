@@ -31,6 +31,7 @@ compileGroovy {
     classpath += files(compileKotlin.destinationDir)
 }
 
+//需要先注掉，然后sync，然后uploadArchives 上传插件到localmaven后，再放开注释使用插件
 //上传到本地
 apply plugin: 'maven'
 uploadArchives{

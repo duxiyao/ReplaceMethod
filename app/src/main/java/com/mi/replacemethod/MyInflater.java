@@ -24,10 +24,13 @@ public class MyInflater {
 
     private static int aaa = 0;
 
-    public static void testtt(){
+    public static void testtt() {
         MyInflater.testa();
+        MyInflater.abcd();
         new MyInflater().dxya();
     }
+
+    public static void abcd(){}
 
     public void dxya() {
         android.util.Log.e("-----", "111111111");

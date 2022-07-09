@@ -25,7 +25,9 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
 //        classpath "com.mi.tools:replacemetohd:1.0.3"
+        //todo 插件放开 需要先注掉，然后sync，然后uploadArchives 上传插件到localmaven后，再放开注释使用插件
         classpath "com.github.niuxiaowei:ReplaceMethod:1.0.11"
+
 //        classpath files("replacemethod/build/libs/replacemethod-1.0.0.jar")
         //自动化maven打包插件
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
